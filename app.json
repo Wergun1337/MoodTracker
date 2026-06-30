@@ -2,7 +2,7 @@
   "expo": {
     "name": "MoodTracker",
     "slug": "MoodTracker",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "moodtracker",
@@ -19,7 +19,10 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.wergun.MoodTracker",
+      "versionCode": 2
+      
     },
     "web": {
       "output": "static",
@@ -43,6 +46,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8185c97a-c353-4115-99aa-7a7a9d59e217"
+      }
     }
   }
 }
