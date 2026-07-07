@@ -11,6 +11,7 @@ type Entry = {
   thoughts: string[];
   note: string;
   energy: number;
+  stress: number;
 };
 
 type MarkedDates = Record<string, { selected: boolean; selectedColor: string }>;
@@ -102,17 +103,23 @@ export default function CalendarScreen() {
               <>
                 <Text style={styles.entryDate}>{selectedDate}</Text>
 
-                <View style={styles.row}>
+                <View style={styles.moodRow}>
                   <Text style={styles.entryEmoji}>{selectedEntry.mood.emoji}</Text>
                   <Text style={styles.entryMood}>{selectedEntry.mood.label}</Text>
                 </View>
 
-                {selectedEntry.energy && (
-                    <View style={styles.block}>
-                        <Text style={styles.blockTitle}>Энергия</Text>
-                        <Text style={styles.energyText}>{selectedEntry.energy} / 10</Text>
-                    </View>
-                )}
+                {/* Энергия и стресс */}
+                <View style={styles.metricsRow}>
+                  <View style={styles.metricBox}>
+                    <Text style={styles.metricLabel}>Энергия</Text>
+                    <Text style={styles.metricValueBlue}>{selectedEntry.energy ?? '—'} / 10</Text>
+                  </View>
+                  <View style={styles.metricDivider} />
+                  <View style={styles.metricBox}>
+                    <Text style={styles.metricLabel}>Стресс</Text>
+                    <Text style={styles.metricValueRed}>{selectedEntry.stress ?? '—'} / 10</Text>
+                  </View>
+                </View>
 
                 {selectedEntry.feelings.length > 0 && (
                   <View style={styles.block}>
@@ -175,22 +182,29 @@ export default function CalendarScreen() {
 }
 
 const styles = StyleSheet.create({
-  screen:      { flex: 1, backgroundColor: '#f8f8f8', padding: 20 },
-  title:       { fontSize: 28, fontWeight: '700', color: '#1a1a1a', marginTop: 24, marginBottom: 16 },
-  calendar:    { borderRadius: 16, overflow: 'hidden', marginBottom: 16 },
-  section:     { backgroundColor: '#fff', borderRadius: 16, padding: 16 },
-  entryDate:   { fontSize: 13, color: '#999', marginBottom: 12 },
-  row:         { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
-  entryEmoji:  { fontSize: 36, marginRight: 12 },
-  entryMood:   { fontSize: 22, fontWeight: '600', color: '#1a1a1a' },
-  block:       { marginBottom: 16 },
-  blockTitle:  { fontSize: 13, fontWeight: '600', color: '#999', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
-  tagsList:    { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  tag:         { paddingVertical: 5, paddingHorizontal: 12, borderRadius: 20, backgroundColor: '#EFF6FF' },
-  tagText:     { fontSize: 13, color: '#4A90E2', fontWeight: '500' },
-  noteText:    { fontSize: 15, color: '#333', lineHeight: 22 },
-  emptyText:   { fontSize: 15, color: '#999', textAlign: 'center', paddingVertical: 20 },
-  editBtn:     { backgroundColor: '#EFF6FF', borderRadius: 12, paddingVertical: 12, alignItems: 'center', marginTop: 8 },
-  editBtnText: { color: '#4A90E2', fontSize: 15, fontWeight: '600' },
-  energyText: { fontSize: 18, fontWeight: '600', color: '#4A90E2' },
+  screen:           { flex: 1, backgroundColor: '#f8f8f8', padding: 20 },
+  title:            { fontSize: 28, fontWeight: '700', color: '#1a1a1a', marginTop: 24, marginBottom: 16 },
+  calendar:         { borderRadius: 16, overflow: 'hidden', marginBottom: 16 },
+  section:          { backgroundColor: '#fff', borderRadius: 16, padding: 16 },
+  entryDate:        { fontSize: 13, color: '#999', marginBottom: 12 },
+  moodRow:          { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
+  entryEmoji:       { fontSize: 36, marginRight: 12 },
+  entryMood:        { fontSize: 22, fontWeight: '600', color: '#1a1a1a' },
+
+  metricsRow:       { flexDirection: 'row', backgroundColor: '#f8f8f8', borderRadius: 12, marginBottom: 16 },
+  metricBox:        { flex: 1, alignItems: 'center', paddingVertical: 12 },
+  metricDivider:    { width: 1, backgroundColor: '#e0e0e0', marginVertical: 8 },
+  metricLabel:      { fontSize: 12, color: '#999', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 0.5 },
+  metricValueBlue:  { fontSize: 18, fontWeight: '700', color: '#4A90E2' },
+  metricValueRed:   { fontSize: 18, fontWeight: '700', color: '#F44336' },
+
+  block:            { marginBottom: 16 },
+  blockTitle:       { fontSize: 13, fontWeight: '600', color: '#999', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 },
+  tagsList:         { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  tag:              { paddingVertical: 5, paddingHorizontal: 12, borderRadius: 20, backgroundColor: '#EFF6FF' },
+  tagText:          { fontSize: 13, color: '#4A90E2', fontWeight: '500' },
+  noteText:         { fontSize: 15, color: '#333', lineHeight: 22 },
+  emptyText:        { fontSize: 15, color: '#999', textAlign: 'center', paddingVertical: 20 },
+  editBtn:          { backgroundColor: '#EFF6FF', borderRadius: 12, paddingVertical: 12, alignItems: 'center', marginTop: 8 },
+  editBtnText:      { color: '#4A90E2', fontSize: 15, fontWeight: '600' },
 });

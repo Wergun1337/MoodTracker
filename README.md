@@ -1,50 +1,61 @@
-# Welcome to your Expo app 👋
+# 🌿 MoodTracker
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Личный дневник настроения для Android. Помогает отслеживать своё эмоциональное состояние, замечать паттерны и лучше понимать себя.
 
-## Get started
+---
 
-1. Install dependencies
+## Что умеет приложение
 
-   ```bash
-   npm install
-   ```
+### 📝 Ежедневные записи
+Каждый день можно зафиксировать:
+- **Настроение** — от «Ужасно» до «Отлично»
+- **Уровень энергии** — ползунок от 1 до 10
+- **Уровень стресса** — ползунок от 1 до 10
+- **Чувства** — большой список по категориям: Гнев, Страх, Грусть, Радость, Любовь
+- **Мысли и состояния** — дополнительный слой самонаблюдения
+- **Заметка** — свободный текст
 
-2. Start the app
+### 📅 Календарь
+- Все дни с записями отмечены цветом настроения
+- Нажми на любой день — увидишь полную запись
+- Можно редактировать старые записи или добавлять пропущенные
 
-   ```bash
-   npx expo start
-   ```
+### 📊 PDF-отчёт
+- Экспорт за любой период — выбери даты вручную или быстрый период (7 / 14 / 30 / 90 дней)
+- Готовый файл можно отправить себе, врачу или психологу
 
-In the output, you'll find options to open the app in a
+### 🔔 Напоминания
+- Ежедневное уведомление в удобное время
+- Настраивается в разделе «Настройки»
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Данные и приватность
 
-## Get a fresh project
+Все данные хранятся **только на твоём телефоне**. Никаких серверов, никакой регистрации, никакой синхронизации в облако. Удалишь приложение — удалятся и записи.
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
-```
+## Установка
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+> Приложение пока не опубликовано в Google Play. APK можно скачать в разделе [Releases](../../releases).
 
-## Learn more
+Скоро:
+   1. Скачай APK из раздела Releases
+   2. Разреши установку из неизвестных источников в настройках Android
+   3. Установи и пользуйся
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Скриншоты
 
-## Join the community
+> _(скоро)_
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Стек
+
+React Native · Expo · AsyncStorage · expo-notifications · expo-print
+
+---
+

@@ -23,11 +23,11 @@ const FEELINGS = [
     },
     { 
         category: 'Грусть',     
-        items: ['Горечь', 'Тоска', 'Скорбь', 'Лень', 'Жалость','Отрешенность','Отчаяние','Беспомощность','Душевная боль','Безнадёжность','Отчуждённость','Разочарование','Потрясение','Сожаление','Скука','Безысходность','Печаль','Загнанность',] 
+        items: ['Горечь', 'Тоска', 'Скорбь', 'Лень', 'Жалость','Отрешенность','Отчаяние','Беспомощность','Душевная боль','Безнадёжность','Отчуждённость','Разочарование','Потрясение','Сожаление','Скука','Безысходность','Печаль','Загнанность'] 
     },
     { 
         category: 'Радость',     
-        items: ['Счастье', 'Восторг', 'Ликование', 'Приподнятость', 'Оживление','Умиротворённость','Увлечение','Интерес','Забота','Ожидание','Возбуждение','Предвкушение','Надежда','Любопытство','Освобождение','Принятие','Нетерпение','Вера','Изумление',] 
+        items: ['Счастье', 'Восторг', 'Ликование', 'Приподнятость', 'Оживление','Умиротворённость','Увлечение','Интерес','Забота','Ожидание','Возбуждение','Предвкушение','Надежда','Любопытство','Освобождение','Принятие','Нетерпение','Вера','Изумление'] 
     },
     { 
         category: 'Любовь',     
@@ -35,25 +35,28 @@ const FEELINGS = [
     },
 ];
 
-const THOUGHTS =[
-    {
-        items: ['Нервозность', 'Пренебрежение', 'Недовольство', 'Вредность', 'Огорчение', 'Нетерпимость', 'Вседозволенность'],
-    },
-    {
-        items: ['Раскаяние', 'Безысходность', 'Превосходство', 'Высокомерие', 'Неполноценность', 'Неудобство', 'Неловкость', 'Апатия', 'Безразличие', 'Неуверенность'],
-    },
-    {
-        items: ['Тупик', 'Усталость', 'Принуждение', 'Одиночество', 'Отверженность', 'Подавленность', 'Холодность', 'Безучастность', 'Равнодушие'],
-    },
-    {
-        items: ['Удовлетворение', 'Уверенность', 'Довольство', 'Окрылённость', 'Торжественность', 'Жизнерадостность', 'Облегчение', 'Ободрённость', 'Удивление'],
-    },
-    {
-        items: ['Сопереживание', 'Сопричастность', 'Уравновешенность', 'Смирение', 'Естественность', 'Жизнелюбие', 'Вдохновение', 'Воодушевление',],
-    },
+const THOUGHTS = [
+  {
+    category: 'Гнев',
+    items: ['Нервозность', 'Пренебрежение', 'Недовольство', 'Вредность', 'Огорчение', 'Нетерпимость', 'Вседозволенность'],
+  },
+  {
+    category: 'Страх',
+    items: ['Раскаяние', 'Безысходность', 'Превосходство', 'Высокомерие', 'Неполноценность', 'Неудобство', 'Неловкость', 'Апатия', 'Безразличие', 'Неуверенность'],
+  },
+  {
+    category: 'Грусть',
+    items: ['Тупик', 'Усталость', 'Принуждение', 'Одиночество', 'Отверженность', 'Подавленность', 'Холодность', 'Безучастность', 'Равнодушие'],
+  },
+  {
+    category: 'Радость',
+    items: ['Удовлетворение', 'Уверенность', 'Довольство', 'Окрылённость', 'Торжественность', 'Жизнерадостность', 'Облегчение', 'Ободрённость', 'Удивление'],
+  },
+  {
+    category: 'Любовь',
+    items: ['Сопереживание', 'Сопричастность', 'Уравновешенность', 'Смирение', 'Естественность', 'Жизнелюбие', 'Вдохновение', 'Воодушевление'],
+  },
 ];
-
-const ALL_THOUGHTS = THOUGHTS.flatMap(t => t.items);
 
 type Mood = typeof MOODS[0];
 
@@ -65,10 +68,12 @@ export default function EntryScreen() {
 
   const [mood, setMood] = useState<Mood | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeThoughtCategory, setActiveThoughtCategory] = useState<string | null>(null);
   const [selectedFeelings, setSelectedFeelings] = useState<string[]>([]);
   const [selectedThoughts, setSelectedThoughts] = useState<string[]>([]);
   const [note, setNote] = useState('');
   const [energy, setEnergy] = useState(5);
+  const [stress, setStress] = useState(5);
 
   useEffect(() => {
     const loadExisting = async () => {
@@ -80,6 +85,8 @@ export default function EntryScreen() {
           setSelectedFeelings(entry.feelings);
           setSelectedThoughts(entry.thoughts);
           setNote(entry.note);
+          setEnergy(entry.energy ?? 5);
+          setStress(entry.stress ?? 5);
         }
       } catch (e) {}
     };
@@ -113,6 +120,7 @@ export default function EntryScreen() {
       thoughts: selectedThoughts,
       note,
       energy,
+      stress,
     };
 
     try {
@@ -157,23 +165,44 @@ export default function EntryScreen() {
 
         {/* Энергия */}
         <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Уровень энергии</Text>
-            <Text style={styles.energyValue}>{energy}</Text>
-            <Slider
-                style={styles.slider}
-                minimumValue={1}
-                maximumValue={10}
-                step={1}
-                value={energy}
-                onValueChange={setEnergy}
-                minimumTrackTintColor="#4A90E2"
-                maximumTrackTintColor="#e0e0e0"
-                thumbTintColor="#4A90E2"
-            />
-            <View style={styles.sliderLabels}>
-                <Text style={styles.sliderLabelText}>Низкая</Text>
-                <Text style={styles.sliderLabelText}>Высокая</Text>
-            </View>
+          <Text style={styles.sectionTitle}>Уровень энергии</Text>
+          <Text style={styles.energyValue}>{energy}</Text>
+          <Slider
+            style={styles.slider}
+            minimumValue={1}
+            maximumValue={10}
+            step={1}
+            value={energy}
+            onValueChange={setEnergy}
+            minimumTrackTintColor="#4A90E2"
+            maximumTrackTintColor="#e0e0e0"
+            thumbTintColor="#4A90E2"
+          />
+          <View style={styles.sliderLabels}>
+            <Text style={styles.sliderLabelText}>Низкая</Text>
+            <Text style={styles.sliderLabelText}>Высокая</Text>
+          </View>
+        </View>
+
+        {/* Стресс */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Уровень стресса</Text>
+          <Text style={styles.stressValue}>{stress}</Text>
+          <Slider
+            style={styles.slider}
+            minimumValue={1}
+            maximumValue={10}
+            step={1}
+            value={stress}
+            onValueChange={setStress}
+            minimumTrackTintColor="#F44336"
+            maximumTrackTintColor="#e0e0e0"
+            thumbTintColor="#F44336"
+          />
+          <View style={styles.sliderLabels}>
+            <Text style={styles.sliderLabelText}>Низкий</Text>
+            <Text style={styles.sliderLabelText}>Высокий</Text>
+          </View>
         </View>
 
         {/* Чувства */}
@@ -224,19 +253,46 @@ export default function EntryScreen() {
         {/* Мысли и состояния */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Мысли и состояния</Text>
-          <View style={styles.tagsList}>
-            {ALL_THOUGHTS.map((thought) => (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll}>
+            {THOUGHTS.map((t) => (
               <TouchableOpacity
-                key={thought}
-                onPress={() => toggleThought(thought)}
-                style={[styles.tag, selectedThoughts.includes(thought) && styles.tagActive]}
+                key={t.category}
+                onPress={() => setActiveThoughtCategory(activeThoughtCategory === t.category ? null : t.category)}
+                style={[styles.categoryBtn, activeThoughtCategory === t.category && styles.categoryActive]}
               >
-                <Text style={[styles.tagText, selectedThoughts.includes(thought) && styles.tagTextActive]}>
-                  {thought}
+                <Text style={[styles.categoryText, activeThoughtCategory === t.category && styles.categoryTextActive]}>
+                  {t.category}
                 </Text>
               </TouchableOpacity>
             ))}
-          </View>
+          </ScrollView>
+          {activeThoughtCategory && (
+            <View style={styles.tagsList}>
+              {THOUGHTS.find(t => t.category === activeThoughtCategory)?.items.map((thought) => (
+                <TouchableOpacity
+                  key={thought}
+                  onPress={() => toggleThought(thought)}
+                  style={[styles.tag, selectedThoughts.includes(thought) && styles.tagActive]}
+                >
+                  <Text style={[styles.tagText, selectedThoughts.includes(thought) && styles.tagTextActive]}>
+                    {thought}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+          {selectedThoughts.length > 0 && (
+            <View style={styles.selectedContainer}>
+              <Text style={styles.selectedLabel}>Выбрано:</Text>
+              <View style={styles.tagsList}>
+                {selectedThoughts.map((t) => (
+                  <View key={t} style={styles.tagActive}>
+                    <Text style={styles.tagTextActive}>{t}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
         </View>
 
         {/* Заметка */}
@@ -298,8 +354,9 @@ const styles = StyleSheet.create({
   saveBtn:            { backgroundColor: '#4A90E2', borderRadius: 16, paddingVertical: 16, alignItems: 'center', marginTop: 8 },
   saveBtnText:        { color: '#fff', fontSize: 17, fontWeight: '600' },
 
-  energyValue:      { fontSize: 40, fontWeight: '700', color: '#4A90E2', textAlign: 'center', marginBottom: 8 },
-  slider:           { width: '100%', height: 40 },
-  sliderLabels:     { flexDirection: 'row', justifyContent: 'space-between', marginTop: -4 },
-  sliderLabelText:  { fontSize: 12, color: '#999' },
+  energyValue:        { fontSize: 40, fontWeight: '700', color: '#4A90E2', textAlign: 'center', marginBottom: 8 },
+  stressValue:        { fontSize: 40, fontWeight: '700', color: '#F44336', textAlign: 'center', marginBottom: 8 },
+  slider:             { width: '100%', height: 40 },
+  sliderLabels:       { flexDirection: 'row', justifyContent: 'space-between', marginTop: -4 },
+  sliderLabelText:    { fontSize: 12, color: '#999' },
 });
